@@ -63,8 +63,8 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ .Values.storage.serverStorage.size }}
-        {{- if .Values.storage.serverStorage.storageClass }}
+            storage: {{ .Values.persistence.size }}
+        {{- if .Values.persistence.storageClass }}
         storageClassName: {{ .Values.persistence.storageClass }}
         {{- end }}
 
