@@ -1,6 +1,6 @@
 # General
 name: hytale
-labels: []
+labels: {}
 # Hytale Server Configuration
 image:
   repository: forgejo.sakul-flee.de/container/hytale:latest
