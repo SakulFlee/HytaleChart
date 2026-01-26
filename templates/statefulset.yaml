@@ -58,7 +58,7 @@ spec:
             optional: true
   volumeClaimTemplates:
     - metadata:
-        name: {{ include "hytale-server.fullname" . }}
+        name: {{ .Values.name }}
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
