@@ -7,6 +7,9 @@ metadata:
 spec:
   serviceName: {{ .Values.name }}
   replicas: 1
+  selector:
+    matchLabels:
+      {{- toYaml .Values.labels | nindent 6 }}
   template:
     metadata:
       labels:
