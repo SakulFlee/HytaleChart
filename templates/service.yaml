@@ -14,5 +14,4 @@ spec:
       {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ .Values.service.port }}
       {{- end }}
-  selector:
-    {{- include "hytale-server.selectorLabels" . | nindent 4 }}
+
