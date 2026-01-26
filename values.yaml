@@ -21,12 +21,13 @@ resources:
     memory: 4Gi
 # JVM Configuration
 jvm:
-  xms: "512M"
-  xmx: "8G"
   additionalOptions:
     - "-server"
     - "-XX:+UseG1GC"
     - "-XX:+UseStringDeduplication"
+    - "-Xmx4G"
+    - "-Xms512M"
+    - "-server"
 # Storage Configuration
 persistence:
   size: 10Gi
