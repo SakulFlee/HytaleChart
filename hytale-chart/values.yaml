@@ -1,0 +1,58 @@
+# Hytale Server Configuration
+image:
+  repository: hytale-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Service Configuration
+service:
+  type: LoadBalancer
+  port: 5520
+  udpPort: 520
+
+# Resources
+resources:
+  limits:
+    cpu: 4000m
+    memory: 8Gi
+  requests:
+    cpu: 2000m
+    memory: 4Gi
+
+# JVM Configuration
+jvm:
+  xms: "4G"
+  xmx: "8G"
+  additionalOptions:
+    - "-server"
+    - "-XX:+UseG1GC"
+    - "-XX:+UseStringDeduplication"
+
+# Storage Configuration
+storage:
+  serverStorage:
+    size: 10Gi
+    storageClass: ""
+  universeStorage:
+    size: 50Gi
+    storageClass: ""
+
+# Credentials
+credentials:
+  secretName: "hytale-credentials"
+  credentialsKey: "credentials.json"
+
+# Server Configuration
+server:
+  downloaderUrl: "https://downloader.hytale.com/hytale-downloader.zip"
+  downloaderBinary: "hytale-downloader-linux-amd64"
+  assetsPath: "/opt/hytale/Assets.zip"
+  serverPath: "/opt/hytale/Server"
+  versionFile: "/opt/hytale/VERSION"
+
+# Security
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
