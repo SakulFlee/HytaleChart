@@ -3,7 +3,7 @@ name: hytale
 labels: {}
 # Hytale Server Configuration
 image:
-  repository: forgejo.sakul-flee.de/container/hytale:latest
+  repository: forgejo.sakul-flee.de/container/hytale
   tag: latest
   pullPolicy: IfNotPresent
 # Service Configuration
