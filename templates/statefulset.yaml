@@ -3,17 +3,20 @@ kind: StatefulSet
 metadata:
   name: {{ .Values.name }}
   labels:
+    app: {{ .Values.name }}
+    {{- if .Values.labels }}
     {{- toYaml .Values.labels | nindent 4 }}
+    {{- end }}
 spec:
   serviceName: {{ .Values.name }}
   replicas: 1
   selector:
     matchLabels:
-      {{- toYaml .Values.labels | nindent 6 }}
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        {{- toYaml .Values.labels | nindent 8 }}
+        app: {{ .Values.name }}
     spec:
       securityContext:
         {{- toYaml .Values.securityContext | nindent 8 }}
