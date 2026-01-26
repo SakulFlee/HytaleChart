@@ -1,6 +1,6 @@
 # Hytale Server Configuration
 image:
-  repository: hytale-server
+  repository: forgejo.sakul-flee.de/container/hytale:latest
   tag: latest
   pullPolicy: IfNotPresent
 # Service Configuration
@@ -32,13 +32,6 @@ persistence:
 credentials:
   secretName: "hytale-credentials"
   credentialsKey: "credentials.json"
-# Server Configuration
-server:
-  downloaderUrl: "https://downloader.hytale.com/hytale-downloader.zip"
-  downloaderBinary: "hytale-downloader-linux-amd64"
-  assetsPath: "/opt/hytale/Assets.zip"
-  serverPath: "/opt/hytale/Server"
-  versionFile: "/opt/hytale/VERSION"
 # Security
 securityContext:
   runAsUser: 1000
