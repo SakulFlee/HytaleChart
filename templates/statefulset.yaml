@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "hytale-server.fullname" . }}
+  labels:
+    {{- include "hytale-server.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "hytale-server.fullname" . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "hytale-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "hytale-server.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 8 }}
+      containers:
+        - name: hytale-server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              protocol: UDP
+              name: game-udp
+          env:
+            - name: JAVA_OPTIONS
+              value: "{{ join ' ' .Values.jvm.additionalOptions }}"
+          volumeMounts:
+            - name: server-storage
+              mountPath: /opt
+            - name: logs-storage
+              mountPath: /opt/hytale/logs
+            - name: credentials-volume
+              mountPath: /opt/hytale-downloadery/.hytale-downloader-credentials.json
+              subPath: credentials.json
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 300
+            periodSeconds: 60
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
+      volumes:
+        - name: logs-storage
+          emptyDir: {}
+        - name: credentials-volume
+          secret:
+            secretName: {{ .Values.credentials.secretName }}
+            items:
+              - key: {{ .Values.credentials.credentialsKey }}
+                path: credentials.json
+            optional: true
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "hytale-server.fullname" . }}
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.storage.serverStorage.size }}
+        {{- if .Values.storage.serverStorage.storageClass }}
+        storageClassName: {{ .Values.persistence.storageClass }}
+        {{- end }}
+

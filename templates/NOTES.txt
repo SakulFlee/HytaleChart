@@ -1,0 +1,32 @@
+Hytale Server has been deployed!
+
+{{- if eq .Values.service.type "LoadBalancer" }}
+Service Type: LoadBalancer
+External IP: {{ .Values.service.port }}
+{{- else }}
+Service Type: {{ .Values.service.type }}
+Port: {{ .Values.service.port }}
+{{- end }}
+
+---
+
+BEFORE you can connect to this server from your Hytale client you NEED to authenticate the server!
+To do so you need to attach to the server:
+
+kubectl attach -it -n {{ .Release.Namespace }} {{ .Release.Name }}
+
+Then run the following command and follow its instructions:
+
+/auth login device
+
+Now you should be able to connect.
+
+---
+
+This container & chart has an auto-update feature implemented.
+Upon restarting it'll check what the latest version is and if an update is found, it'll overwrite the server files.
+ALL OTHER files will remain untouched!
+
+---
+
+Have fun! :)
