@@ -24,7 +24,7 @@ spec:
               name: game-udp
           env:
             - name: JAVA_OPTIONS
-              value: "{{ join ' ' .Values.jvm.additionalOptions }}"
+              value: {{ .Values.jvm.additionalOptions | join " " }}
           volumeMounts:
             - name: server-storage
               mountPath: /opt
