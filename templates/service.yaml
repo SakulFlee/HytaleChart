@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "hytale-server.fullname" . }}
   labels:
-    {{- include "hytale-server.labels" . | nindent 4 }}
+    {{- toYaml .Values.labels | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
