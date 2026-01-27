@@ -45,13 +45,13 @@ spec:
           livenessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 300
-            periodSeconds: 60
+            initialDelaySeconds: {{ .Vales.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Vales.probes.liveness.periodSeconds }}
           readinessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 300
-            periodSeconds: 30
+            initialDelaySeconds: {{ .Vales.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Vales.probes.readiness.periodSeconds }}
       volumes:
         - name: logs-storage
           emptyDir: {}

@@ -42,3 +42,11 @@ securityContext:
   runAsGroup: 1000
   fsGroup: 1000
   runAsNonRoot: true
+# Probes
+probes:
+  readiness:
+    initialDelaySeconds: 300
+    periodSeconds: 30
+  liveness:
+    initialDelaySeconds: 300
+    periodSeconds: 30
