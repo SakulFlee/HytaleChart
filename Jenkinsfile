@@ -1,7 +1,7 @@
 #!/usr/bin/groovy
 
 def registry = 'forgejo.sakul-flee.de'
-def owner = 'helm-charts'
+def owner = 'HelmCharts'
 
 def target = "https://${registry}/api/packages/${owner}/helm/api/charts"
 
