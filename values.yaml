@@ -45,7 +45,7 @@ securityContext:
 # Probes
 probes:
   startup:
-    file: /opt/hytale/.ready
+    file: /tmp/.ready
     failureThreshold: 100
     periodSeconds: 30
   liveness:
