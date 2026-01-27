@@ -1,10 +1,9 @@
 #!/usr/bin/groovy
 
 def registry = 'forgejo.sakul-flee.de'
-def namespace = 'helm-charts'
-def name = 'hytale'
+def owner = 'helm-charts'
 
-def target = "oci://${registry}/${namespace}/${name}"
+def target = "https://${registry}/api/packages/${owner}/helm/api/charts"
 
 pipeline {
   agent {
@@ -42,15 +41,15 @@ pipeline {
       }
     }
 
-    stage('Login') {
+    stage('Package') {
       steps {
         container('helm') {
-          sh "cat /var/run/secrets/additional/secret-jenkins-forgejo-token/token | helm registry login ${registry} --username jenkins --password-stdin"
+          sh "helm pacakge ."
         }
       }
     }
 
-    stage('Release Chart') {
+    stage('Release') {
       steps {
         container('helm') {
           script {
@@ -58,11 +57,14 @@ pipeline {
             def version = sh(script: "grep '^version:' Chart.yaml | awk '{print \$2}'", returnStdout: true).trim()
             def pkgFile = "${name}-${version}.tgz"
             
-            // Package and Push
-            sh "helm package ."
-            sh "helm push ${pkgFile} ${target}"
-            
-            echo "Successfully released ${name} version ${version} to ${target}"
+            def token = sh(script: "cat /var/run/secrets/additional/secret-jenkins-forgejo-token/token", returnStdout: true).trim()
+
+            sh """
+              curl --user "jenkins:${token}" \
+                -X POST \
+                --upload-file ./${pkgFile} \
+                ${target}
+            """
           }
         }
       }
