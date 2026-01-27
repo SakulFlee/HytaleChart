@@ -41,17 +41,19 @@ spec:
               subPath: .hytale-downloader-credentials.json
               readOnly: true
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}          
+          startupProbe:
+            exec:
+              command:
+                - cat
+                - {{ .Values.probes.startup.file }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
           livenessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: {{ .Vales.probes.liveness.initialDelaySeconds }}
-            periodSeconds: {{ .Vales.probes.liveness.periodSeconds }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.service.port }}
-            initialDelaySeconds: {{ .Vales.probes.readiness.initialDelaySeconds }}
-            periodSeconds: {{ .Vales.probes.readiness.periodSeconds }}
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
       volumes:
         - name: logs-storage
           emptyDir: {}

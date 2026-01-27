@@ -44,9 +44,10 @@ securityContext:
   runAsNonRoot: true
 # Probes
 probes:
-  readiness:
-    initialDelaySeconds: 300
+  startup:
+    file: /opt/hytale/.ready
+    failureThreshold: 100
     periodSeconds: 30
   liveness:
-    initialDelaySeconds: 300
+    initialDelaySeconds: 30
     periodSeconds: 30
