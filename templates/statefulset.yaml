@@ -33,12 +33,12 @@ spec:
               value: {{ .Values.jvm.additionalOptions | join " " }}
           volumeMounts:
             - name: {{ .Values.name }}
-              mountPath: /opt
+              mountPath: /opt/hytale
             - name: logs-storage
               mountPath: /opt/hytale/logs
             - name: credentials-volume
-              mountPath: /opt/hytale-downloadery/.hytale-downloader-credentials.json
-              subPath: credentials.json
+              mountPath: /opt/hytale-downloader-secret
+              subPath: .hytale-downloader-credentials.json
               readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -60,7 +60,7 @@ spec:
             secretName: {{ .Values.credentials.secretName }}
             items:
               - key: {{ .Values.credentials.credentialsKey }}
-                path: credentials.json
+                path: credentials
             optional: true
   volumeClaimTemplates:
     - metadata:
