@@ -50,7 +50,7 @@ spec:
           readinessProbe:
             tcpSocket:
               port: {{ .Values.service.port }}
-            initialDelaySeconds: 60
+            initialDelaySeconds: 300
             periodSeconds: 30
       volumes:
         - name: logs-storage
