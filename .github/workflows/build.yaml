@@ -42,6 +42,3 @@ jobs:
 
           # Push the versioned release
           helm push "$CHART_PACKAGE" "$REGISTRY_URL"
-
-          # Push the 'latest' alias
-          helm push "$CHART_PACKAGE" "$REGISTRY_URL" --version latest
