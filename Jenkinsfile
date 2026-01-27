@@ -44,7 +44,7 @@ pipeline {
     stage('Package') {
       steps {
         container('helm') {
-          sh "helm pacakge ."
+          sh "helm package ."
         }
       }
     }
