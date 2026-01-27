@@ -55,14 +55,14 @@ pipeline {
         container('helm') {
           script {
             // Extract version from Chart.yaml to identify the file name
-            def chartVersion = sh(script: "grep '^version:' Chart.yaml | awk '{print \$2}'", returnStdout: true).trim()
-            def pkgFile = "${chartName}-${chartVersion}.tgz"
+            def version = sh(script: "grep '^version:' Chart.yaml | awk '{print \$2}'", returnStdout: true).trim()
+            def pkgFile = "${name}-${version}.tgz"
             
             // Package and Push
             sh "helm package ."
             sh "helm push ${pkgFile} ${target}"
             
-            echo "Successfully released ${chartName} version ${chartVersion} to ${target}"
+            echo "Successfully released ${name} version ${version} to ${target}"
           }
         }
       }
