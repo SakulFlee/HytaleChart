@@ -11,7 +11,7 @@ This may take a few minutes based on your internet connection.
 
 Eventually, the Hytale server should start.
 Once again, it has to be authorized first.
-Exit the logs (CTRL+C) and attach to the container instead:
+Exit the logs and attach to the container instead:
 kubectl attach -it -n {{ .Release.Namespace }} {{ .Release.Name }}
 
 You should have full access to the Hytale server console now.
