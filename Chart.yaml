@@ -1,5 +1,5 @@
 apiVersion: v2
-name: hytale-server
+name: hytale
 description: A Helm chart for deploying Hytale server
 type: application
 version: 0.1.0
