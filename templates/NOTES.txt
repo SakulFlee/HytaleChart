@@ -1,32 +1,41 @@
 Hytale Server has been deployed!
+However, this does not mean it is usable yet.
+There is manual work required!
 
-{{- if eq .Values.service.type "LoadBalancer" }}
-Service Type: LoadBalancer
-External IP: {{ .Values.service.port }}
-{{- else }}
-Service Type: {{ .Values.service.type }}
-Port: {{ .Values.service.port }}
-{{- end }}
+First, the Hytale downloader needs to be authorized.
+Check the container logs and follow the instructions:
+kubectl logs -f -n {{ .Release.Namespace }} {{ .Release.Name }}
 
----
+After authorization, the latest server files will be downloaded and prepared.
+This may take a few minutes based on your internet connection.
 
-BEFORE you can connect to this server from your Hytale client you NEED to authenticate the server!
-To do so you need to attach to the server:
-
+Eventually, the Hytale server should start.
+Once again, it has to be authorized first.
+Exit the logs (CTRL+C) and attach to the container instead:
 kubectl attach -it -n {{ .Release.Namespace }} {{ .Release.Name }}
 
-Then run the following command and follow its instructions:
+You should have full access to the Hytale server console now.
+In the console enter and follow the instructions:
+auth login device
 
-/auth login device
+Your server should be running and authenticated now.
+However, this is only a temporary authentication!
+To make this permanent enter:
+auth persistence Encrypted
 
-Now you should be able to connect.
+Now, your server should be authenticated even after restarting the container.
+
+IMPORTANT NOTE:
+The server will AUTOMATICALLY update upon RESTARTING the container!
+Usually, there should be no issue with this as ONLY the server files (not save game, "Universe", mods, configs, or anything else) will be overwritten.
+However, mods MAY BREAK after updates!
 
 ---
 
-This container & chart has an auto-update feature implemented.
-Upon restarting it'll check what the latest version is and if an update is found, it'll overwrite the server files.
-ALL OTHER files will remain untouched!
+Service Type: {{ .Values.service.type }}
+External IP: {{ .Values.service.port }}
+Check logs: kubectl logs -f -n {{ .Release.Namespace }} {{ .Release.Name }}
+Access console: kubectl attach -it -n {{ .Release.Namespace }} {{ .Release.Name }}
 
----
+>>> There is manual work required to get the server fully up and running. Check above! <<<
 
-Have fun! :)
