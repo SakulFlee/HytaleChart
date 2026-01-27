@@ -1,9 +1,10 @@
 #!/usr/bin/groovy
 
 def registry = 'forgejo.sakul-flee.de'
-def namespace = 'container'
-def chartName = 'hytale'
-def chartTarget = "oci://${registry}/${namespace}"
+def namespace = 'helm-charts'
+def name = 'hytale'
+
+def target = "oci://${registry}/${namespace}/${name}"
 
 pipeline {
   agent {
@@ -59,9 +60,9 @@ pipeline {
             
             // Package and Push
             sh "helm package ."
-            sh "helm push ${pkgFile} ${chartTarget}"
+            sh "helm push ${pkgFile} ${target}"
             
-            echo "Successfully released ${chartName} version ${chartVersion} to ${chartTarget}"
+            echo "Successfully released ${chartName} version ${chartVersion} to ${target}"
           }
         }
       }
