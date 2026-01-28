@@ -4,7 +4,10 @@ metadata:
   name: {{ .Values.name }}
   labels:
     {{- toYaml .Values.labels | nindent 4 }}
-spec:
+spec:  
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
