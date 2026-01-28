@@ -6,8 +6,7 @@ metadata:
     {{- toYaml .Values.labels | nindent 4 }}
 spec:  
   selector:
-    matchLabels:
-      app: {{ .Values.name }}
+    app: {{ .Values.name }}
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
