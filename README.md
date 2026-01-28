@@ -26,43 +26,96 @@ Install the Helm Chart:
 helm install hytale oci://ghcr.io/sakulflee/charts/hytale
 ```
 
-Then following instructions in Helm!
+Then following instructions in Helm!  
+Most setups you won't need to change the values.
 
 ### Values
+
+#### General
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| name | string | `"hytale"` | Name of container |
+| labels | object | `{}` |  |
+
+#### Persistence
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| persistence.size | string | `"10Gi"` |  |
+| persistence.storageClass | string | `""` |  |
+
+#### Resources 
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| resources.limits.cpu | string | `"4000m"` |  |
+| resources.limits.memory | string | `"8Gi"` |  |
+| resources.requests.cpu | string | `"2000m"` |  |
+| resources.requests.memory | string | `"4Gi"` |  |
+
+> [!NOTE]
+> Increasing the memory here doesn't automatically give the Hytale server more!
+> Check JVM Arguments (`-Xmx`) for further adjustments.
+
+#### Service
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| service.port | int | `5520` |  |
+| service.type | string | `"LoadBalancer"` |  |
+| service.udpPort | int | `520` |  |
+
+#### Credentials
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | credentials.credentialsKey | string | `"credentials.json"` | Key inside secret |
-| credentials.secretName | string | `"hytale-credentials"` | Name of secret (can be empty if you wish interactive setup!) |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"ghcr.io/sakulflee/hytale"` |  |
-| image.tag | string | `"latest"` |  |
+| credentials.secretName | string | `"hytale-credentials"` | Name of secret (can be empty; see below!) |
+
+> [!NOTE]
+> This is _optional_, you can set the `secretName` to an empty string and use the interactive authentication instead.
+
+#### JVM Arguments
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
 | jvm.additionalOptions[0] | string | `"-server"` |  |
 | jvm.additionalOptions[1] | string | `"-XX:+UseG1GC"` |  |
 | jvm.additionalOptions[2] | string | `"-XX:+UseStringDeduplication"` |  |
-| jvm.additionalOptions[3] | string | `"-Xmx4G"` |  |
+| jvm.additionalOptions[3] | string | `"-Xmx4G"` | Max Java memory usage, adjust with requests & limits! |
 | jvm.additionalOptions[4] | string | `"-Xms512M"` |  |
 | jvm.additionalOptions[5] | string | `"-server"` |  |
-| labels | object | `{}` |  |
-| name | string | `"hytale"` |  |
-| persistence.size | string | `"10Gi"` |  |
-| persistence.storageClass | string | `""` |  |
+
+> [!NOTE]
+> This is a map that can be overwritten.
+
+#### Image
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"ghcr.io/sakulflee/hytale"` |  |
+| image.tag | string | `"latest"` |  |
+
+#### Probes
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
 | probes.liveness.initialDelaySeconds | int | `30` |  |
 | probes.liveness.periodSeconds | int | `30` |  |
 | probes.startup.failureThreshold | int | `100` |  |
 | probes.startup.file | string | `"/tmp/.ready"` |  |
 | probes.startup.periodSeconds | int | `30` |  |
-| resources.limits.cpu | string | `"4000m"` |  |
-| resources.limits.memory | string | `"8Gi"` |  |
-| resources.requests.cpu | string | `"2000m"` |  |
-| resources.requests.memory | string | `"4Gi"` |  |
+
+#### Security
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
 | securityContext.fsGroup | int | `1000` |  |
 | securityContext.runAsGroup | int | `1000` |  |
 | securityContext.runAsNonRoot | bool | `true` |  |
 | securityContext.runAsUser | int | `1000` |  |
-| service.port | int | `5520` |  |
-| service.type | string | `"LoadBalancer"` |  |
-| service.udpPort | int | `520` |  |
 
 ## License
 
