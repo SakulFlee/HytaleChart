@@ -2,11 +2,10 @@
 
 # 📦 Hytale Helm Chart
 
+[![Origin: Forgejo](https://img.shields.io/badge/Forgejo-Origin-orange?style=for-the-badge&logo=forgejo&logoSize=auto)](https://forgejo.sakul-flee.de/HelmCharts/Hytale/)
+[![Mirror: GitHub](https://img.shields.io/badge/GitHub-Mirror-blue?style=for-the-badge&logo=github&logoSize=auto)](https://github.com/SakulFlee/HytaleChart/)
 
-![](https://img.shields.io/badge/Forgejo-Origin-orange?style=for-the-badge&logo=forgejo&logoSize=auto&link=https%3A%2F%2Fforgejo.sakul-flee.de%2FHelmCharts%2FHytale%2F)
-![](https://img.shields.io/badge/GitHub-Mirror-blue?style=for-the-badge&logo=github&logoSize=auto&link=https%3A%2F%2Fgithub.com%2FSakulFlee%2FHytaleCharts)
-
-![](https://img.shields.io/badge/Based%20on-Hytale%20Container-blue?style=for-the-badge&logo=docker&link=https%3A%2F%2Fforgejo.sakul-flee.de%2FContainers%2FHytale%2F)
+[![Based on: HytaleContainer](https://img.shields.io/badge/Based%20On-Hytale%20Container-blue?style=for-the-badge&logo=docker&logoSize=auto)](https://forgejo.sakul-flee.de/Containers/Hytale/)
 
 A feature rich Helm Chart for running Hytale servers!
 
