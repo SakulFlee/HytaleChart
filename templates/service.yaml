@@ -10,7 +10,7 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.port }}
       protocol: UDP
-      name: game-udp
+      name: hytale-udp
       {{- if eq .Values.service.type "NodePort" }}
       nodePort: {{ .Values.service.port }}
       {{- end }}
