@@ -47,6 +47,3 @@ probes:
     file: /tmp/.ready
     failureThreshold: 100
     periodSeconds: 30
-  liveness:
-    initialDelaySeconds: 30
-    periodSeconds: 30
