@@ -10,7 +10,6 @@ image:
 service:
   type: LoadBalancer
   port: 5520
-  udpPort: 520
 # Resources
 resources:
   limits:
