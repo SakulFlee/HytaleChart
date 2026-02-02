@@ -39,7 +39,7 @@ spec:
             - name: {{ .Values.name }}
               mountPath: /opt/hytale
             - name: logs-storage
-              mountPath: /opt/hytale/logs
+              mountPath: /opt/hytale/Server/logs
             - name: credentials-volume
               mountPath: /opt/hytale-downloader-secret
               subPath: .hytale-downloader-credentials.json
