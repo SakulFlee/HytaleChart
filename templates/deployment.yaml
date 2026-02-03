@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ .Values.name }}
   labels:
@@ -8,7 +8,7 @@ metadata:
     {{- toYaml .Values.labels | nindent 4 }}
     {{- end }}
 spec:
-  serviceName: {{ .Values.name }}
+  # serviceName is removed as it is specific to StatefulSets
   replicas: 1
   selector:
     matchLabels:
@@ -36,7 +36,7 @@ spec:
             - name: MODS
               value: {{ .Values.mods | join " " }}
           volumeMounts:
-            - name: {{ .Values.name }}
+            - name: data-storage
               mountPath: /opt/hytale
             - name: logs-storage
               mountPath: /opt/hytale/Server/logs
@@ -54,6 +54,9 @@ spec:
             failureThreshold: {{ .Values.probes.startup.failureThreshold }}
             periodSeconds: {{ .Values.probes.startup.periodSeconds }}
       volumes:
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-pvc" .Values.name) }}
         - name: logs-storage
           emptyDir: {}
         - name: credentials-volume
@@ -61,17 +64,5 @@ spec:
             secretName: {{ .Values.credentials.secretName }}
             items:
               - key: {{ .Values.credentials.credentialsKey }}
-                path: credentials
+                path: .hytale-downloader-credentials.json
             optional: true
-  volumeClaimTemplates:
-    - metadata:
-        name: {{ .Values.name }}
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: {{ .Values.persistence.size }}
-        {{- if .Values.persistence.storageClass }}
-        storageClassName: {{ .Values.persistence.storageClass }}
-        {{- end }}
-
