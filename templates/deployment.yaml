@@ -10,6 +10,8 @@ metadata:
 spec:
   # serviceName is removed as it is specific to StatefulSets
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ .Values.name }}
