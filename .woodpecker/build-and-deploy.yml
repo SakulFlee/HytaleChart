@@ -1,20 +1,17 @@
+when:
+  branch: main
+
 steps:
   lint:
     image: alpine/helm:latest
     commands:
       - helm lint .
-    when:
-      branch: main
-      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
-
+  
   package:
     image: alpine/helm:latest
     commands:
       - helm package .
-    when:
-      branch: main
-      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
-
+ 
   publish:
     image: alpine/helm:latest    
     environment:
@@ -26,9 +23,6 @@ steps:
       - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm
       - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
       - helm cm-push ./*.tgz forgejo_repo
-    when:
-      branch: main
-      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
 
   create-release:
     image: alpine:latest
@@ -51,5 +45,5 @@ steps:
                \"prerelease\": false
              }"
     when:
-      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
+      event: tag
       branch: main
