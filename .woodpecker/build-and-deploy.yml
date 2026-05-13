@@ -1,5 +1,17 @@
 steps:
-  publish-helm:
+  lint:
+    image: alpine/helm:latest
+    commands:
+      - helm lint .
+
+  package:
+    image: alpine/helm:latest
+    commands:
+      - helm package .
+    when:
+      branch: main
+
+  login:
     image: alpine/helm:latest
     environment:
       FORGEJO_USERNAME:
@@ -7,16 +19,13 @@ steps:
       FORGEJO_PASSWORD:
         from_secret: FORGEJO_PASSWORD
     commands:
-      # 1. Log into the Forgejo OCI registry
       - echo $FORGEJO_PASSWORD | helm registry login forgejo.sakul-flee.de --username $FORGEJO_USERNAME --password-stdin
-      
-      # 2. Package the chart 
-      - helm package . --version ${CI_COMMIT_TAG:latest}
-      
-      # 3. Push to the Forgejo OCI Registry
+
+  publish:
+    image: alpine/helm:latest
+    commands:
       - helm push hytale-*.tgz oci://forgejo.sakul-flee.de/sakulflee
     when:
-      event: [push, tag, manual]
       branch: main
 
   create-release:
