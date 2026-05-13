@@ -5,7 +5,7 @@ steps:
       - helm lint .
     when:
       branch: main
-      event: [push, tag, pr, manual]
+      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
 
   package:
     image: alpine/helm:latest
@@ -13,7 +13,7 @@ steps:
       - helm package .
     when:
       branch: main
-      event: [push, tag, pr, manual]
+      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
 
   publish:
     image: alpine/helm:latest
@@ -23,7 +23,7 @@ steps:
       - helm cm-push ./*.tgz forgejo_repo
     when:
       branch: main
-      event: [push, tag, pr, manual]
+      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
 
   create-release:
     image: alpine:latest
@@ -46,5 +46,5 @@ steps:
                \"prerelease\": false
              }"
     when:
-      event: tag
+      event: [push, pull_request, pull_request_closed, pull_request_metadata, tag, deployment, cron, manual, release]
       branch: main
