@@ -3,6 +3,9 @@ steps:
     image: alpine/helm:latest
     commands:
       - helm lint .
+    when:
+      branch: main
+      event: [push, tag, pr, manual]
 
   package:
     image: alpine/helm:latest
@@ -10,6 +13,7 @@ steps:
       - helm package .
     when:
       branch: main
+      event: [push, tag, pr, manual]
 
   add-repo:
     image: alpine/helm:latest
@@ -22,6 +26,7 @@ steps:
       - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm
     when:
       branch: main
+      event: [push, tag, pr, manual]
 
   publish:
     image: alpine/helm:latest
@@ -30,6 +35,7 @@ steps:
       - helm cm-push ./*.tgz forgejo_repo
     when:
       branch: main
+      event: [push, tag, pr, manual]
 
   create-release:
     image: alpine:latest
