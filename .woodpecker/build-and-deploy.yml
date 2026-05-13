@@ -11,7 +11,14 @@ steps:
     when:
       branch: main
 
-  login:
+  install-cm-push-helm-plugin:
+    image: alpine/helm:latest
+    commands:
+      - helm plugin install https://github.com/chartmuseum/helm-push
+    when:
+      branch: main
+
+  add-repo:
     image: alpine/helm:latest
     environment:
       FORGEJO_USERNAME:
@@ -19,12 +26,14 @@ steps:
       FORGEJO_PASSWORD:
         from_secret: FORGEJO_PASSWORD
     commands:
-      - echo $FORGEJO_PASSWORD | helm registry login forgejo.sakul-flee.de --username $FORGEJO_USERNAME --password-stdin
+      - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/${FORGEJO_USERNAME}/helm
+    when:
+      branch: main
 
   publish:
     image: alpine/helm:latest
     commands:
-      - helm push hytale-*.tgz oci://forgejo.sakul-flee.de/sakulflee/hytalehelmchart
+      - helm cm-push ./*.tgz forgejo_repo
     when:
       branch: main
 
