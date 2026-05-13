@@ -14,7 +14,7 @@ steps:
   install-cm-push-helm-plugin:
     image: alpine/helm:latest
     commands:
-      - helm plugin install https://github.com/chartmuseum/helm-push
+      - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
     when:
       branch: main
 
