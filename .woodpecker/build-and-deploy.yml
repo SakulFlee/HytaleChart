@@ -24,7 +24,7 @@ steps:
   publish:
     image: alpine/helm:latest
     commands:
-      - helm push hytale-*.tgz oci://forgejo.sakul-flee.de/sakulflee
+      - helm push hytale-*.tgz oci://forgejo.sakul-flee.de/sakulflee/hytalehelmchart
     when:
       branch: main
 
