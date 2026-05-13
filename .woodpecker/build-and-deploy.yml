@@ -16,24 +16,9 @@ steps:
       FORGEJO_PASSWORD:
         from_secret: FORGEJO_PASSWORD
     commands:
-    # 1. Install the plugin
-    - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
-
-    # 2. Package the chart first (to get the .tgz file)
-    - helm package .
-    
-    # 3. Add the repo (Exact URL from docs, no trailing slash)
-    - |
-      helm repo add forgejo_repo \
-        https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm \
-        --username $FORGEJO_USERNAME \
-        --password $FORGEJO_PASSWORD
-    
-    # 4. Push the SPECIFIC file as shown in the docs
-    # Using 'ls' to find the file name so we don't have to hardcode the version
-    - |
-      CHART_FILE=$(ls *.tgz | head -n 1)
-      helm cm-push ./$CHART_FILE forgejo_repo
+      - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm/
+      - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
+      - helm cm-push . forgejo_repo
 
   create-release:
     image: alpine:latest
