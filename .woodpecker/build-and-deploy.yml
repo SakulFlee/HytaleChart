@@ -7,6 +7,11 @@ steps:
     image: alpine/helm:latest
     commands:
       - helm lint .
+  
+  package:
+    image: alpine/helm:latest
+    commands:
+      - helm package .
  
   publish:
     image: alpine/helm:latest    
@@ -18,7 +23,7 @@ steps:
     commands:
       - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm
       - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
-      - helm cm-push . forgejo_repo
+      - helm cm-push ./*.tgz forgejo_repo
 
   create-release:
     image: alpine:latest
