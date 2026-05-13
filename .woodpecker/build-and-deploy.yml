@@ -22,9 +22,10 @@ steps:
         from_secret: FORGEJO_PASSWORD
     commands:
       - |
+        FILE=$(ls *.tgz | head -n 1)
         curl -f -u "$FORGEJO_USERNAME:$FORGEJO_PASSWORD" \
           -X POST "https://forgejo.sakul-flee.de/api/packages/SakulFlee/helm/api/charts" \
-          --upload-file "./*.tgz"
+          --upload-file "$FILE"
 
   create-release:
     image: alpine:latest
