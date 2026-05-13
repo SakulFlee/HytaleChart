@@ -21,7 +21,7 @@ steps:
       FORGEJO_PASSWORD:
         from_secret: FORGEJO_PASSWORD
     commands:
-      - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/${FORGEJO_USERNAME}/helm
+      - helm repo add  --username $FORGEJO_USERNAME --password $FORGEJO_PASSWORD forgejo_repo https://forgejo.sakul-flee.de/api/packages/$FORGEJO_USERNAME/helm
       - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
       - helm cm-push ./*.tgz forgejo_repo
 
