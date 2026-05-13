@@ -11,13 +11,6 @@ steps:
     when:
       branch: main
 
-  install-cm-push-helm-plugin:
-    image: alpine/helm:latest
-    commands:
-      - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
-    when:
-      branch: main
-
   add-repo:
     image: alpine/helm:latest
     environment:
@@ -33,6 +26,7 @@ steps:
   publish:
     image: alpine/helm:latest
     commands:
+      - helm plugin install --verify=false https://github.com/chartmuseum/helm-push
       - helm cm-push ./*.tgz forgejo_repo
     when:
       branch: main
