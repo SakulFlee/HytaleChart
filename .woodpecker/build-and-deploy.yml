@@ -21,7 +21,8 @@ steps:
       FORGEJO_PASSWORD:
         from_secret: FORGEJO_PASSWORD
     commands:
-      - curl -f -u "$FORGEJO_USERNAME:$FORGEJO_PASSWORD" \
+      - |
+        curl -f -u "$FORGEJO_USERNAME:$FORGEJO_PASSWORD" \
           -X POST "https://forgejo.sakul-flee.de/api/packages/SakulFlee/helm/api/charts" \
           --upload-file "./*.tgz"
 
